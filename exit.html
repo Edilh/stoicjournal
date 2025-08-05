@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Until Tomorrow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(ellipse at center, #293e14 0%, #000000 80%);
+      color: #FFDC52;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 10px #FFDC52, 0 0 20px #FFDC52;
+      animation: pulse 3s infinite;
+    }
+
+    #tagline {
+      font-size: 1.2rem;
+      color: #8B804B;
+      margin-bottom: 2rem;
+      animation: flicker 4s infinite;
+    }
+
+    .emoji-line {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .farewell {
+      font-size: 1rem;
+      max-width: 600px;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    #countdown {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+    }
+
+    a {
+      margin-top: 2rem;
+      display: inline-block;
+      color: #000;
+      background-color: #FFDC52;
+      padding: 0.5rem 1rem;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 0 10px #FFDC52;
+    }
+
+    a:hover {
+      background-color: #fff87d;
+    }
+
+    #surprise {
+      position: absolute;
+      bottom: -200px;
+      font-size: 4rem;
+      opacity: 0;
+      animation: riseSurprise 6s ease-in-out 2s forwards;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    @keyframes riseSurprise {
+      0% { bottom: -200px; opacity: 0; }
+      50% { opacity: 1; }
+      100% { bottom: 100px; opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <h1>See you tomorrow?</h1>
+  <div id="tagline">STOIC PANDEMONIUM • MINDFUL MAYHEM • THOUGHT SURGE</div>
+  <div class="emoji-line">🧠 📝 💭 ⚡</div>
+  <div class="farewell">
+    Your thoughts matter.<br />
+    Come back tomorrow for more wisdom and mayhem.<br />
+    Until then — stay reflective, stay chaotic.
+  </div>
+  <div id="countdown">Returning in: <span id="timer">10</span> seconds</div>
+  <a href="index.html">Return to the madness</a>
+
+  <div id="surprise">💥✨🌀</div>
+
+  <script>
+    const taglines = [
+       "THOUGHTS UNLEASHED • STOIC CHAOS • INNER MADNESS",
+      "WISDOM TORNADO • MENTAL STORM • THOUGHT FURY",
+      "CHAOTIC REFLECTION • STOIC INSANITY • MIND BLAST",
+      "WISDOM EXPLOSION • THOUGHT HURRICANE • INNER CHAOS",
+      "STOIC PANDEMONIUM • MINDFUL MAYHEM • THOUGHT SURGE",
+      "EGO ERUPTION • STOIC VOID • RATIONAL ANARCHY",
+      "ZEN WHIPLASH • LOGIC RAVE • STILLNESS DETONATED",
+      "CYNIC HOWL • SOUL COLLAPSE • STOIC AFTERBURN",
+      "MENTAL RIOT • PHILOSOPHER’S SPASM • SERENITY MELTDOWN",
+      "SAPIENCE SLAP • MORAL MAELSTROM • INNER EARTHQUAKE",
+      "APATHY INFERNO • VIRTUE WHIRLWIND • BRAINSTORM CRUCIFIXION",
+      "ETHICAL CATACLYSM • SILENT SCREAM • THOUGHTS UNHINGED",
+      "EMOTIONLESS TSUNAMI • STOIC LIMBO • INTELLECTUAL CHAOS ENGINE",
+      "ABSURD WISDOM • COSMIC DISCIPLINE • REASON ABLAZE",
+      "THOUGHT FALLOUT • STOIC STAMPEDE • PERCEPTION GRINDER",
+      "TEMPEST OF PRINCIPLES • STOIC FRENZY • MIND ON FIRE",
+      "VALLEY OF FIRE • LOGIC’S DEATHROLL • STILLNESS UNCHAINED",
+      "CIVIC DUTY DRAG RACE • MORALITY EXPLODED • STOIC WRECKAGE",
+      "ETHICS GONE NOVA • MIND’S WILDCORE • STOIC ONSLAUGHT",
+      "DISCIPLINE WITH TEETH • CHAOS WITH MEANING • THE STOIC LOVEANDPEACEBAND"
+    ];
+
+    function randomTagline() {
+      const tl = taglines[Math.floor(Math.random() * taglines.length)];
+      document.getElementById("tagline").innerText = tl;
+    }
+
+    randomTagline();
+
+    // Countdown logic
+    let timeLeft = 10;
+    const timerDisplay = document.getElementById("timer");
+    const countdown = setInterval(() => {
+      timeLeft--;
+      timerDisplay.textContent = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(countdown);
+        window.location.href = "index.html";
+      }
+    }, 1000);
+  </script>
+</body>
+</html>

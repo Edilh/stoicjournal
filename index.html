@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mindful Madness Journal</title>
+  <!-- Open Graph meta tags -->
+  <meta property="og:title" content="Mindful Madness Journal" />
+  <meta property="og:description" content="Unleash chaos with stoic wisdom. A journal like no other." />
+  <meta property="og:image" content="/images/og-image.jpg" />
+  <meta property="og:url" content="https://your-site.pages.dev" />
+  <meta property="og:type" content="website" />
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+        margin: 0;
+        padding: 2rem;
+        font-family: 'Orbitron', sans-serif;
+        background: radial-gradient(ellipse at center, #0d3e22 0%, #0b2e17 45%, #000000 90%);
+        color: #FFDC52;
+        box-shadow: inset 0 0 200px rgba(0, 255, 100, 0.15);
+        text-align: center;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    h1 {
+      font-size: 2rem;
+      text-shadow: 0 0 10px #FFDC52, 0 0 20px #FFDC52;
+      transition: 0.3s ease-in-out;
+    }
+
+    #slogan {
+      margin-top: -10px;
+      font-size: 1rem;
+      color: #8B804B;
+    }
+
+    .question-label {
+      margin-top: 2rem;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+
+    textarea {
+      width: 80%;
+      height: 100px;
+      background: radial-gradient(ellipse at center, #0c391e 0%, #082612 45%, #000000 90%);
+      color: #FFDC52;
+      border: 2px solid #FFDC52;
+      padding: 1rem;
+      margin-top: 0.5rem;
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 2rem;
+      padding: 0.5rem 1.5rem;
+      background-color: #FFDC52;
+      border: none;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 10px #FFDC52;
+    }
+
+    button:hover {
+      background-color: #fff87d;
+    }
+
+    #history {
+      margin-top: 3rem;
+      text-align: left;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: #111;
+      padding: 1rem;
+      border: 2px solid #FFDC52;
+    }
+
+    .entry {
+      margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="title">MINDFUL MADNESS</h1>
+  <div id="slogan">STOIC PANDEMONIUM • THOUGHT SURGE • INNER HAVOC</div>
+
+  <div class="question">
+    <div class="question-label">1. What are you seeing right now? 👀</div>
+    <textarea id="q1" placeholder="Keep it real..."></textarea>
+  </div>
+
+  <div class="question">
+    <div class="question-label">2. What are you doing right now? 🎯</div>
+    <textarea id="q2" placeholder="No filter..."></textarea>
+  </div>
+
+  <div class="question">
+    <div class="question-label">3. How are you dealing with it? 💭</div>
+    <textarea id="q3" placeholder="Talk to me..."></textarea>
+  </div>
+
+  <div>
+    <button onclick="saveReflection()">Save reflection</button>
+    <button style="margin-left: 1rem; background-color: transparent; border: 2px solid #FFDC52; color: #FFDC52;" onclick="exitPractice()">Exit practice</button>
+  </div>
+
+  <div id="history">
+    <h2>Previous Reflections</h2>
+    <div id="historyEntries"></div>
+  </div>
+
+  <script>
+    const titles = [
+       "CHAOTIC WISDOM", "MINDFUL MADNESS", "WISDOM STORM",
+        "THOUGHT CHAOS", "STOIC FRENZY", "MENTAL MAYHEM",
+        "INNER HAVOC", "WISDOM VORTEX",
+        "EGO ERUPTION", "STOIC VOID", "RATIONAL ANARCHY",
+        "ZEN WHIPLASH", "LOGIC RAVE", "STILLNESS DETONATED",
+        "CYNIC HOWL", "SOUL COLLAPSE", "STOIC AFTERBURN",
+        "MENTAL RIOT", "PHILOSOPHER’S SPASM", "SERENITY MELTDOWN",
+        "SAPIENCE SLAP", "MORAL MAELSTROM", "INNER EARTHQUAKE",
+        "APATHY INFERNO", "VIRTUE WHIRLWIND", "BRAINSTORM CRUCIFIXION",
+        "ETHICAL CATACLYSM", "SILENT SCREAM", "THOUGHTS UNHINGED",
+        "EMOTIONLESS TSUNAMI", "STOIC LIMBO", "INTELLECTUAL CHAOS ENGINE",
+        "ABSURD WISDOM", "COSMIC DISCIPLINE", "REASON ABLAZE",
+        "THOUGHT FALLOUT", "STOIC STAMPEDE", "PERCEPTION GRINDER",
+        "TEMPEST OF PRINCIPLES", "MIND ON FIRE",
+        "VALLEY OF FIRE", "LOGIC’S DEATHROLL", "STILLNESS UNCHAINED",
+        "CIVIC DUTY DRAG RACE", "MORALITY EXPLODED", "STOIC WRECKAGE",
+        "ETHICS GONE NOVA", "MIND’S WILDCORE", "STOIC ONSLAUGHT",
+        "DISCIPLINE WITH TEETH", "CHAOS WITH MEANING", "THE STOIC ROCKBAND"
+    ];
+
+    function randomizeTitle() {
+      if (Math.random() < 0.3) {
+        const title = titles[Math.floor(Math.random() * titles.length)];
+        document.getElementById("title").innerText = title;
+      }
+    }
+    setInterval(randomizeTitle, 4000);
+
+    const todayKey = new Date().toISOString().split("T")[0];
+
+    const q1 = document.getElementById("q1");
+    const q2 = document.getElementById("q2");
+    const q3 = document.getElementById("q3");
+
+    const saved = JSON.parse(localStorage.getItem("reflections") || "{}");
+    if (saved[todayKey]) {
+      q1.value = saved[todayKey].q1 || "";
+      q2.value = saved[todayKey].q2 || "";
+      q3.value = saved[todayKey].q3 || "";
+    }
+
+    function saveReflection() {
+      saved[todayKey] = {
+        q1: q1.value,
+        q2: q2.value,
+        q3: q3.value,
+        timestamp: new Date().toLocaleString()
+      };
+      localStorage.setItem("reflections", JSON.stringify(saved));
+      alert("Reflection saved for " + todayKey);
+      renderHistory();
+    }
+
+    function exitPractice() {
+      window.location.href = "exit.html";
+    }
+
+    function renderHistory() {
+      const historyContainer = document.getElementById("historyEntries");
+      historyContainer.innerHTML = "";
+      const keys = Object.keys(saved).sort().reverse();
+      keys.forEach(date => {
+        if (date !== todayKey) {
+          const entry = saved[date];
+          const div = document.createElement("div");
+          div.className = "entry";
+          div.innerHTML = `
+            <strong>${date}</strong><br>
+            <em>1. 👀</em> ${entry.q1 || "-"}<br>
+            <em>2. 🎯</em> ${entry.q2 || "-"}<br>
+            <em>3. 💭</em> ${entry.q3 || "-"}<br>
+            <hr style="border-color: #444;">
+          `;
+          historyContainer.appendChild(div);
+        }
+      });
+    }
+
+    renderHistory();
+  </script>
+</body>
+</html>
