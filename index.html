@@ -29,12 +29,17 @@
     }
 
     h1 {
-      font-size: 4rem;
+      font-size: 2rem;
       text-shadow: 0 0 6px #FFDC52, 0 0 14px #FFDC52;
       letter-spacing: 5px; /* ← dit voegt ruimte toe tussen de letters */
       transition: 0.3s ease-in-out;
     }
-
+    @media (max-width: 768px) {
+        h1 {
+        text-shadow: 0 0 3px #FFDC52, 0 0 6px #FFDC52;
+        letter-spacing: 0.05em;
+        }
+    }
     #slogan {
       margin-top: -10px;
       font-size: 1rem;
